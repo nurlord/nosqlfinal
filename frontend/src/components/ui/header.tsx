@@ -12,7 +12,7 @@ const Header = () => {
         <div className='container flex h-14 items-center'>
           <div className='mr-4 flex'>
             <a className='mr-4 flex items-center gap-2 lg:mr-6' href='/'>
-              <span className='font-bold inline-block'>NotTwitter</span>
+              <span className='font-bold inline-block'>Scalora</span>
             </a>
             <nav className='flex items-center gap-4 text-sm xl:gap-6'></nav>
           </div>
@@ -22,6 +22,7 @@ const Header = () => {
               <></>
             ) : user.data ? (
               <>
+                <span>{user.data.username}</span>
                 <Button
                   size='sm'
                   variant={'outline'}

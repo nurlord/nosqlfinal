@@ -58,9 +58,6 @@ export class AuthController {
     const userId = req.session.userId;
 
     const user = await this.usersService.findById(userId);
-    return {
-      message: 'User profile fetched successfully',
-      user,
-    };
+    return user;
   }
 }

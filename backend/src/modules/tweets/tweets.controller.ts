@@ -35,6 +35,7 @@ export class TweetsController {
     return this.tweetsService.getAllTweetsByUser(req);
   }
 
+  @Public()
   @Get(':id')
   async getById(@Req() req: Request, @Param('id') id: string) {
     return this.tweetsService.getById(req, id);

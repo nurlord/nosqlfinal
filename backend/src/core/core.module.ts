@@ -7,6 +7,7 @@ import { RedisModule } from './redis/redis.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from '../shared/guards/auth.guard';
 import { TweetsModule } from '../modules/tweets/tweets.module';
+import { LikesModule } from '../modules/likes/likes.module';
 
 @Module({
   imports: [
@@ -16,7 +17,7 @@ import { TweetsModule } from '../modules/tweets/tweets.module';
     TweetsModule,
     UsersModule,
     AuthModule,
-    // TransactionsModule,
+    LikesModule,
   ],
   controllers: [],
   providers: [
