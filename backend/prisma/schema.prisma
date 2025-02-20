@@ -1,0 +1,50 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("MONGO_URL_PRISMA")
+}
+
+model User {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  email    String @unique
+  username String @unique
+  password String
+
+  followers EmbeddedUser[]
+  following EmbeddedUser[]
+
+  createdAt DateTime @default(now())
+  Tweet     Tweet[]
+
+  @@map("users")
+}
+
+type EmbeddedUser {
+  id       String @db.ObjectId
+  username String
+}
+
+model Tweet {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  content   String?
+  userId    String   @db.ObjectId
+  createdAt DateTime @default(now())
+
+  parentId String? @db.ObjectId // If null, it's a normal tweet. If set, it's a reply.
+
+  user    User    @relation(fields: [userId], references: [id])
+  parent  Tweet?  @relation("TweetReplies", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  replies Tweet[] @relation("TweetReplies")
+
+  @@map("tweets")
+}
