@@ -1,13 +1,13 @@
 # 🐦 **Twitter Clone (NoSQL Project)**
 
-A full-stack Twitter clone built with **NestJS** for the backend, **MongoDB** for NoSQL data handling, and **React** for the frontend. This project showcases MongoDB's native queries and CRUD operations without using any ORM.
+A full-stack Twitter clone built with **NestJS** for the backend, **MongoDB** for NoSQL data handling, and **React** for the frontend. This project showcases MongoDB's native queries and CRUD operations.
 
 ## 📜 **Features**
 
 - 📝 Create, Read, Update, and Delete (CRUD) Tweets
 - 💬 Replies and nested comments using MongoDB's aggregation
 - ❤️ Like/Unlike tweets and count likes
-- 🔐 Authentication with JWT
+- 🔐 Authentication with cookie Sessions
 - 👤 User profiles with tweet history
 - 📄 Clean UI using TailwindCSS and ShadCN components
 
@@ -15,7 +15,7 @@ A full-stack Twitter clone built with **NestJS** for the backend, **MongoDB** fo
 
 ## ⚡ **Tech Stack**
 
-- **Backend:** NestJS, MongoDB (Native Driver)
+- **Backend:** NestJS, PrismaORM, MongoDB
 - **Frontend:** React, ShadCN, TailwindCSS
 - **Database:** MongoDB (NoSQL)
 - **Deployment:** Docker, Google Cloud Run
