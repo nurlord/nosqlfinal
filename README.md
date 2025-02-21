@@ -50,8 +50,7 @@ A full-stack Twitter clone built with **NestJS** for the backend, **MongoDB** fo
    Create a `.env` file inside the `backend/` directory:
 
    ```
-   MONGO_URI=mongodb://localhost:27017/twitter_clone
-   JWT_SECRET=your_secret_key
+   MONGO_URL=mongodb://localhost:27017/twitter_clone
    PORT=5000
    ```
 
