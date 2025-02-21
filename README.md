@@ -182,13 +182,3 @@ db.tweets.deleteOne({
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
-
-### 📢 **Contact**
-
-For questions or collaboration:
-
-- Email: <your.email@example.com>
-- LinkedIn: [Your LinkedIn](https://linkedin.com/in/your-profile)
-- Twitter: [@yourhandle](https://twitter.com/yourhandle)
-
----
