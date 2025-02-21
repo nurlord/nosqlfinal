@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { Request } from 'express';
 import { PrismaService } from '@/src/core/prisma/prisma.service';
 import { CreateTweetDto } from './dto/create-tweet.dto';
@@ -180,9 +184,34 @@ export class TweetsService {
     if (!req.session.userId) {
       throw new UnauthorizedException('Session is missing or expired');
     }
+    const tweet = await this.prismaService.tweet.findUnique({
+      where: { id },
+      include: { replies: true },
+    });
+
+    if (!tweet) {
+      throw new NotFoundException('Tweet not found');
+    }
+
+    if (tweet.userId !== req.session.userId) {
+      throw new UnauthorizedException('You cannot delete this tweet');
+    }
+
+    if (tweet.parentId != null) {
+      await this.prismaService.tweet.delete({ where: { id } });
+      return true;
+    }
+
+    await this.prismaService.tweet.deleteMany({
+      where: { parentId: id },
+    });
+
+    await this.prismaService.like.deleteMany({
+      where: { tweetId: id },
+    });
 
     await this.prismaService.tweet.delete({
-      where: { id: id, userId: req.session.userId },
+      where: { id },
     });
     return true;
   }

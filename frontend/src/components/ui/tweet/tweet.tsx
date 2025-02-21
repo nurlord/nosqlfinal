@@ -1,4 +1,9 @@
-import { deleteTweet, likeTweet, postReply } from '@/api/tweets-api';
+import {
+  deleteTweet,
+  likeTweet,
+  postReply,
+  updateTweet,
+} from '@/api/tweets-api';
 import { useUser } from '@/lib/auth';
 import { Tweet } from '@/types/api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -7,6 +12,7 @@ import {
   HeartOff,
   LoaderCircle,
   MessageCircle,
+  Pencil,
   Trash2,
 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
@@ -29,6 +35,7 @@ export function TweetItem({ tweet }: Props) {
   const { register, handleSubmit, reset } = useForm<Inputs>();
 
   const [isReplyOpened, setReply] = useState(false);
+  const [isEditOpened, setEdit] = useState(false);
   const [isLiked, setIsLiked] = useState(tweet.isLiked || false);
   const [likeCount, setLikeCount] = useState(tweet._count?.Like || 0);
 
@@ -38,6 +45,7 @@ export function TweetItem({ tweet }: Props) {
   };
 
   const onReply = () => {
+    setEdit(false);
     setReply(!isReplyOpened);
   };
 
@@ -73,6 +81,13 @@ export function TweetItem({ tweet }: Props) {
     },
   });
 
+  const updateMutation = useMutation({
+    mutationFn: updateTweet,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['tweets'] });
+    },
+  });
+
   const handleLikeToggle = () => {
     if (isLiked) {
       unlikeMutation.mutate({ tweetId: tweet.id });
@@ -85,6 +100,13 @@ export function TweetItem({ tweet }: Props) {
       deleteMutation.mutate({ tweetId: id });
     }
   };
+
+  const onUpdate = () => {
+    setReply(false);
+    setEdit(!isEditOpened);
+  };
+  const handleUpdate = (id: string) => {};
+
   return (
     <div className='w-full border-b border-gray-200 dark:border-gray-700 sm:px-6 py-4'>
       <div className='flex items-start gap-4'>
@@ -98,6 +120,9 @@ export function TweetItem({ tweet }: Props) {
             <span className='text-xs sm:text-sm text-gray-500'>
               {new Date(tweet.createdAt).toLocaleTimeString()}
             </span>
+            <button className='text-gray-400 hover:text-blue-500 transition flex items-center justify-center'>
+              <Pencil size={18} onClick={() => onUpdate()} />
+            </button>
             {user.data?.id === tweet.userId && (
               <button
                 className='text-gray-400 hover:text-red-500 transition flex items-center justify-center'

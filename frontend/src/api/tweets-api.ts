@@ -15,6 +15,11 @@ type LikeTweetProps = {
   tweetId: string;
 };
 
+type UpdateTweetProps = {
+  tweetId: string;
+  content: string;
+};
+
 export const postTweet = ({
   content,
 }: PostTweetProps): Promise<{ data: Tweet }> => {
@@ -43,4 +48,11 @@ export const likeTweet = ({
 
 export const deleteTweet = ({ tweetId }: LikeTweetProps): Promise<boolean> => {
   return api.delete(`tweets/${tweetId}`);
+};
+
+export const updateTweet = ({ tweetId, content }: UpdateTweetProps) => {
+  return api.patch('tweets', {
+    id: tweetId,
+    city: content,
+  });
 };
